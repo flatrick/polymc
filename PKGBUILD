@@ -32,7 +32,7 @@ build() {
   local java_home java_version java_major
   local newest_java_home='' newest_java_major=0
 
-  for java_home in /usr/lib/jvm/*; do
+  for java_home in /usr/lib/jvm/default /usr/lib/jvm/*; do
     [[ -d $java_home && -x $java_home/bin/java && -x $java_home/bin/javac &&
       -x $java_home/bin/jar ]] || continue
 
@@ -54,6 +54,9 @@ build() {
       java_major > newest_java_major)); then
       newest_java_home=$java_home
       newest_java_major=$java_major
+      if [[ $java_home == /usr/lib/jvm/default ]]; then
+        break
+      fi
     fi
   done
 
